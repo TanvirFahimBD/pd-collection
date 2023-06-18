@@ -22,3 +22,14 @@ exports.GenerateToken = (req, res) => {
   let token = jwt.sign(Payload, "SecretKey");
   res.status(200).send({ status: "success", token });
 };
+
+exports.UpdateProduct = (req, res) => {
+  let id = req.params.id;
+  let query = { _id: id };
+  let reqBody = req.body;
+  ProductModel.updateOne(query, reqBody)
+    .then((data) => res.status(200).send({ status: "success", data: data }))
+    .catch((err) =>
+      res.status(401).send({ status: "Unauthorized error", message: err })
+    );
+};
