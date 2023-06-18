@@ -12,3 +12,13 @@ exports.GetProducts = (req, res) => {
     .then((data) => res.status(200).send({ status: "success", data: data }))
     .catch((err) => res.status(401).send({ status: "fail", message: err }));
 };
+
+exports.GenerateToken = (req, res) => {
+  let userId = req.params.id;
+  let Payload = {
+    exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60,
+    data: { userId },
+  };
+  let token = jwt.sign(Payload, "SecretKey");
+  res.status(200).send({ status: "success", token });
+};
